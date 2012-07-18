@@ -3,7 +3,9 @@
 #include <math.h>
 #include <sys/resource.h>
 
+#ifdef __x86_64__
 extern float glibc_x86_64_expf (float);
+#endif
 extern float glibc_generic_expf (float);
 extern double glibc_generic_exp (double);
 
@@ -128,8 +130,10 @@ int main (int argc, const char **argv)
 	op = ATAN2;
       else if (strcmp (op_name, "exp") == 0)
 	op = EXP;
+#ifdef __x86_64__
       else if (strcmp (op_name, "x86_64_exp") == 0)
 	op = X86_64_EXP;
+#endif
       else if (strcmp (op_name, "generic_exp") == 0)
 	op = GENERIC_EXP;
       else
@@ -149,7 +153,9 @@ int main (int argc, const char **argv)
 	case SIN:  FLOAT_TEST_LOOP (sinf); break;
 	case ATAN2: FLOAT_TEST_LOOP2 (atan2f); break;
 	case EXP:  FLOAT_TEST_LOOP (expf); break;
+#ifdef __x86_64__
 	case X86_64_EXP:  FLOAT_TEST_LOOP (glibc_x86_64_expf); break;
+#endif
 	case GENERIC_EXP:  FLOAT_TEST_LOOP (glibc_generic_expf); break;
 	}
       getrusage (RUSAGE_SELF, &end_float_ru);
@@ -165,7 +171,9 @@ int main (int argc, const char **argv)
 	case SIN:  DOUBLE_TEST_LOOP (sin); break;
 	case ATAN2: DOUBLE_TEST_LOOP2 (atan2); break;
 	case EXP:  DOUBLE_TEST_LOOP (exp); break;
+#ifdef __x86_64__
 	case X86_64_EXP:  DOUBLE_TEST_LOOP (exp); break;
+#endif
 	case GENERIC_EXP:  DOUBLE_TEST_LOOP (glibc_generic_exp); break;
 	}
       getrusage (RUSAGE_SELF, &end_double_ru);

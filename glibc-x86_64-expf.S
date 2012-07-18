@@ -17,6 +17,8 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
+#ifdef __x86_64__
+
 #define ENTRY(name) .globl name	; name:
 #define END(name)
 #define L(name)	.L##name
@@ -339,3 +341,5 @@ L(SP_ONE): /* single precision 1.0 */
 	.long	0x3f800000
 	ASM_TYPE_DIRECTIVE(L(SP_ONE), @object)
 	ASM_SIZE_DIRECTIVE(L(SP_ONE))
+
+#endif // __x86_64__
