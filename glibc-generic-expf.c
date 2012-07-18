@@ -47,7 +47,7 @@
    overhead (compare exp2f).
    */
 #include <float.h>
-#include <ieee754.h>
+#include "glibc-ieee754.h"
 #include <math.h>
 #include <fenv.h>
 #include <inttypes.h>
