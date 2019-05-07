@@ -1,5 +1,6 @@
-CFLAGS = -O3 -ffast-math -march=native
-CXXFLAGS = -std=c++11 $(CFLAGS)
+OPT = -O3 -ffast-math -march=native
+CFLAGS = $(OPT)
+CXXFLAGS = -std=c++11 $(OPT)
 LDLIBS = -lm
 
 BENCHS = float-op-bench exp-bench
