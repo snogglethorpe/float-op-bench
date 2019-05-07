@@ -25,7 +25,10 @@ inline double add (double x, double y) { return x + y; }
 inline double mul (double x, double y) { return x * y; }
 inline double divd (double x, double y) { return x / y; }
 
-enum OP { NOP, ADD, MUL, DIV, SQRT, SIN, ATAN2, EXP, X86_64_EXP, GENERIC_EXP, NUM_OPS };
+extern float exp_series_f (float);
+extern double exp_series_d (double);
+
+enum OP { NOP, ADD, MUL, DIV, SQRT, SIN, ATAN2, EXP, EXP_SERIES, X86_64_EXP, GENERIC_EXP, NUM_OPS };
 
 double time_diff (struct rusage *start_ru, struct rusage *end_ru)
 {
@@ -145,6 +148,8 @@ int main (int argc, const char **argv)
 	op = ATAN2;
       else if (strcmp (op_name, "exp") == 0)
 	op = EXP;
+      else if (strcmp (op_name, "exp-series") == 0)
+	op = EXP_SERIES;
 #ifdef __x86_64__
       else if (strcmp (op_name, "x86_64_exp") == 0)
 	op = X86_64_EXP;
@@ -168,6 +173,7 @@ int main (int argc, const char **argv)
 	case SIN:  FLOAT_TEST_LOOP (sinf); break;
 	case ATAN2: FLOAT_TEST_LOOP2 (atan2f); break;
 	case EXP:  FLOAT_TEST_LOOP (expf); break;
+	case EXP_SERIES:  FLOAT_TEST_LOOP (exp_series_f); break;
 #ifdef __x86_64__
 	case X86_64_EXP:  FLOAT_TEST_LOOP (glibc_x86_64_expf); break;
 #endif
@@ -186,6 +192,7 @@ int main (int argc, const char **argv)
 	case SIN:  DOUBLE_TEST_LOOP (sin); break;
 	case ATAN2: DOUBLE_TEST_LOOP2 (atan2); break;
 	case EXP:  DOUBLE_TEST_LOOP (exp); break;
+	case EXP_SERIES:  DOUBLE_TEST_LOOP (exp_series_d); break;
 #ifdef __x86_64__
 	case X86_64_EXP:  DOUBLE_TEST_LOOP (exp); break;
 #endif
