@@ -28,7 +28,20 @@ inline double divd (double x, double y) { return x / y; }
 extern float exp_series_f (float);
 extern double exp_series_d (double);
 
-enum OP { NOP, ADD, MUL, DIV, SQRT, SIN, ATAN2, EXP, EXP_SERIES, X86_64_EXP, GENERIC_EXP, NUM_OPS };
+enum OP
+  {
+    NOP,
+    ADD, MUL, DIV,
+    SQRT,
+    SIN, ATAN2,
+    EXP,
+    EXP_SERIES,
+#ifdef __x86_64__
+    X86_64_EXP,
+#endif
+    GENERIC_EXP,
+    NUM_OPS
+  };
 
 double time_diff (struct rusage *start_ru, struct rusage *end_ru)
 {
@@ -178,6 +191,7 @@ int main (int argc, const char **argv)
 	case X86_64_EXP:  FLOAT_TEST_LOOP (glibc_x86_64_expf); break;
 #endif
 	case GENERIC_EXP:  FLOAT_TEST_LOOP (glibc_generic_expf); break;
+	case NUM_OPS:; // just to silence compiler
 	}
       getrusage (RUSAGE_SELF, &end_float_ru);
 
@@ -197,6 +211,7 @@ int main (int argc, const char **argv)
 	case X86_64_EXP:  DOUBLE_TEST_LOOP (exp); break;
 #endif
 	case GENERIC_EXP:  DOUBLE_TEST_LOOP (glibc_generic_exp); break;
+	case NUM_OPS:; // just to silence compiler
 	}
       getrusage (RUSAGE_SELF, &end_double_ru);
 
