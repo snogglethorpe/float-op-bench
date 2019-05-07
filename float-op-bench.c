@@ -55,22 +55,34 @@ int main (int argc, const char **argv)
     finps[i] = (float) (dinps[i]);
 
 #define FLOAT_TEST_LOOP(op)			\
-  for (i = 0; i < num_outer_iters; i++)		\
-    for (j = 0; j < NUM_INNER_ITERS; j++)	\
-      fosum += op (finps[j]);
+  do {						\
+    float_fun_name = #op;  			\
+    for (i = 0; i < num_outer_iters; i++)	\
+      for (j = 0; j < NUM_INNER_ITERS; j++)	\
+	fosum += op (finps[j]);			\
+  } while (0);
 #define FLOAT_TEST_LOOP2(op)			\
-  for (i = 0; i < num_outer_iters; i++)		\
-    for (j = 0; j < NUM_INNER_ITERS; j++)	\
-      fosum += op (finps[j], finps[j+1]);
+  do {						\
+    float_fun_name = #op;  			\
+    for (i = 0; i < num_outer_iters; i++)	\
+      for (j = 0; j < NUM_INNER_ITERS; j++)	\
+        fosum += op (finps[j], finps[j+1]);	\
+  } while (0);
 
 #define DOUBLE_TEST_LOOP(op)			\
-  for (i = 0; i < num_outer_iters; i++)		\
-    for (j = 0; j < NUM_INNER_ITERS; j++)	\
-      dosum += op (dinps[j]);
+  do {						\
+    double_fun_name = #op;  			\
+    for (i = 0; i < num_outer_iters; i++)	\
+      for (j = 0; j < NUM_INNER_ITERS; j++)	\
+        dosum += op (dinps[j]);			\
+  } while (0);
 #define DOUBLE_TEST_LOOP2(op)			\
-  for (i = 0; i < num_outer_iters; i++)		\
-    for (j = 0; j < NUM_INNER_ITERS; j++)	\
-      dosum += op (dinps[j], dinps[j+1]);
+  do {						\
+    double_fun_name = #op;  			\
+    for (i = 0; i < num_outer_iters; i++)	\
+      for (j = 0; j < NUM_INNER_ITERS; j++)	\
+        dosum += op (dinps[j], dinps[j+1]);	\
+  } while (0);
 
   num_outer_iters = num_iters / NUM_INNER_ITERS;
   num_iters = NUM_INNER_ITERS * num_outer_iters;
@@ -88,6 +100,7 @@ int main (int argc, const char **argv)
   {
     float fosum = 0;
     double dosum = 0;
+    const char *float_fun_name = "?", *double_fun_name = "?";
     
     getrusage (RUSAGE_SELF, &start_float_ru);
     FLOAT_TEST_LOOP (nopf);
@@ -110,6 +123,8 @@ int main (int argc, const char **argv)
   while (*argv)
     {
       const char *op_name = *argv++;
+      const char *float_fun_name = "?", *double_fun_name = "?";
+
       enum OP op;
       float fosum = 0;
       double dosum = 0;
@@ -184,11 +199,11 @@ int main (int argc, const char **argv)
       final_fosum += fosum;
       final_dosum += dosum;
 
-      printf ("  float (%sf) user time: %g sec\n",
-	      op_name,
+      printf ("  float (%s) user time: %g sec\n",
+	      float_fun_name,
 	      time_diff (&start_float_ru, &end_float_ru) - float_nop_time);
       printf ("  double (%s) user time: %g sec\n",
-	      op_name,
+	      double_fun_name,
 	      time_diff (&start_double_ru, &end_double_ru) - double_nop_time);
     }
 
