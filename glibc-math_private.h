@@ -226,12 +226,6 @@ extern double __kernel_cos (double,double);
 extern double __kernel_tan (double,double,int);
 extern int    __kernel_rem_pio2 (double*,double*,int,int,int, const int32_t*);
 
-/* internal functions.  */
-extern double __copysign (double x, double __y);
-
-extern inline double __copysign (double x, double y)
-{ return __builtin_copysign (x, y); }
-
 /* ieee style elementary float functions */
 extern float __ieee754_sqrtf (float);
 extern float __ieee754_acosf (float);
@@ -271,12 +265,6 @@ extern float __kernel_sinf (float,float,int);
 extern float __kernel_cosf (float,float);
 extern float __kernel_tanf (float,float,int);
 extern int   __kernel_rem_pio2f (float*,float*,int,int,int, const int32_t*);
-
-/* internal functions.  */
-extern float __copysignf (float x, float __y);
-
-extern inline float __copysignf (float x, float y)
-{ return __builtin_copysignf (x, y); }
 
 /* ieee style elementary long double functions */
 extern long double __ieee754_sqrtl (long double);
@@ -327,7 +315,6 @@ extern int __ilogbl (long double);
 extern int __isinfl (long double);
 extern int __isnanl (long double);
 extern long double __atanl (long double);
-extern long double __copysignl (long double, long double);
 extern long double __expm1l (long double);
 extern long double __floorl (long double);
 extern long double __frexpl (long double, int *);
@@ -341,9 +328,6 @@ extern long double fabsl (long double x);
 extern void __sincosl (long double, long double *, long double *);
 extern long double __logbl (long double x);
 extern long double __significandl (long double x);
-
-extern inline long double __copysignl (long double x, long double y)
-{ return __builtin_copysignl (x, y); }
 
 #endif
 
