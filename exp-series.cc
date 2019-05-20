@@ -1,9 +1,19 @@
 #include <cmath>
 #include <type_traits>
 
+// Return e^VAL, calculated using the classic series expansion.
+//
 template<typename F, typename D>
 F exp_series_1 (F val)
 {
+  // To avoid multiple divisions, we accumulate a separate numerator and denomimator,
+  // and only do one division at the end.
+  //
+  // DIV is the greatest common divisor of all series terms encountered so far.
+  // NUM is the accumulated sum of the numerators of series terms, adjusted to
+  // reflect the current value of DIV, so that after we finish, we need just
+  // divide NUM by DIV.
+  //
   F num = 1;
   D div = 1;
   D step = 0;
