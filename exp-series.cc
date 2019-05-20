@@ -6,18 +6,27 @@
 template<typename F, typename D>
 F exp_series_1 (F val)
 {
+  // NUM is the power of VAL used for the next term in the series expansion
+  // (VAL^(i - 1), where i is 1...).
+  //
+  F num = 1;
+
   // To avoid multiple divisions, we accumulate a separate numerator and denomimator,
   // and only do one division at the end.
   //
   // DIV is the greatest common divisor of all series terms encountered so far.
-  // NUM is the accumulated sum of the numerators of series terms, adjusted to
-  // reflect the current value of DIV, so that after we finish, we need just
-  // divide NUM by DIV.
-  //
-  F num = 1;
+  // 
   D div = 1;
+	
+  // STEP is the index, 1..., of the previous series term calculated.  It starts
+  // at zero to reflect that we initially have no previous term.
+  //
   D step = 0;
 
+  // SUM is the accumulated sum of the numerators of series terms, adjusted to
+  // reflect the current value of DIV, so that after we finish, we need just
+  // divide SUM by DIV.
+  //
   F sum = 0;
 
   for (;;)
